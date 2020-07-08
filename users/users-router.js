@@ -5,7 +5,7 @@ const restrict = require("../middleware/restrict")
 
 const router = express.Router()
 
-router.get("/users", restrict(), async (req, res, next) => {
+router.get("/api/users", restrict(), async (req, res, next) => {
 	try {
 		res.json(await Users.find())
 	} catch(err) {
@@ -13,7 +13,7 @@ router.get("/users", restrict(), async (req, res, next) => {
 	}
 })
 
-router.post("/users", async (req, res, next) => {
+router.post("/api/register", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
 		const user = await Users.findBy({ username }).first()
@@ -35,14 +35,14 @@ router.post("/users", async (req, res, next) => {
 	}
 })
 
-router.post("/login", async (req, res, next) => {
+router.post("/api/login", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
 		const user = await Users.findBy({ username }).first()
 
 		if (!user) {
 			return res.status(401).json({
-				message: "Invalid Credentials",
+				message: "You shall not pass!",
 			})
 		}
 
@@ -50,21 +50,21 @@ router.post("/login", async (req, res, next) => {
 
 		if (!passwordValid) {
 			return res.status(401).json({
-				message: "Invalid Credentials",
+				message: "You shall not pass!",
 			})
 		}
 
 		req.session.user = user
 
 		res.json({
-			message: `Welcome ${user.username}!`,
+			message: `Logged in: ${user.username}!`,
 		})
 	} catch(err) {
 		next(err)
 	}
 })
 
-router.get("/logout", async (req, res, next) => {
+router.get("/api/logout", async (req, res, next) => {
 	try {
 		req.session.destroy((err) => {
 			if (err) {
