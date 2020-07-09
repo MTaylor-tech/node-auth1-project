@@ -24,6 +24,7 @@ Complete the following endpoints:
 
 Add support for **sessions** and **cookies**, use them to keep a record of logged in users across requests.
 
+
 ## Stretch Problem
 
 - Write a piece of **global** middleware that ensures a user is logged in when accessing _any_ route prefixed by `/api/users`.
